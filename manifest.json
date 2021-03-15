@@ -1,7 +1,7 @@
 {
     "short_name": "RadekAutoSiteWeather",
     "name": "",
-    "start_url": "/",
+    "start_url": "https://neozmatrixa.github.io/IoT/",
     "background_color": "",
     "theme_color": "",
     "display": "fullscreen"
