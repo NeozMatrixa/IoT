@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #4d4d4d;
+}
+
+li,
+a,
+button {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+h1 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10%;
+  padding-bottom: 0px;
+  background-color: #4d4d4d;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.nav_links {
+  list-style: none;
+}
+
+.nav_links li {
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+.nav_links li a {
+  transition: all 0.3s ease 0s;
+}
+
+.nav_links li a:hover {
+  color: chocolate;
+}
+
+.type-location {
+  background-color: whitesmoke;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+::placeholder {
+  padding-left: 10px;
+}
+
+.search-location {
+  align-items: center;
+  width: 20%;
+  height: 100%;
+}
+
+main {
+  position: absolute;
+  opacity: 0.9;
+  width: auto;
+  padding: 10px 20%;
+  background-color: whitesmoke;
+}
+
+.grid {
+  display: flex;
+  justify-content: space-between;
+  overflow: auto;
+  position: relative;
+  height: 500px;
+}
+
+.info {
+  width: 100%;
+  background: #9933cc;
+  border-right-color: transparent;
+  overflow: auto;
+  position: relative;
+  height: 90px;
+}
+
+.temperature {
+  border-radius: 40px;
+  background-color: gray;
+  width: 50%;
+}
+
+.map {
+  border-radius: 40px;
+  background-color: green;
+  width: 50%;
+}
+
+.mapouter {
+  position: relative;
+  text-align: right;
+  height: 450px;
+  width: 500px;
+}
+
+.gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+    height: 450px;
+    width: 500px;
+  }
+
+  .forecast{
+    border-radius: 40px;
+    background-color: gray;
+    width: 50%;
+  }
+
+  .pressure{
+    border-radius: 40px;
+    background-color: gray;
+    width: 50%;
+  }

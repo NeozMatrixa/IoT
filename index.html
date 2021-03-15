@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="manifest" href="manifest.json"/>
+    <title>Weather24</title>
+  </head>
+  
+  <body>
+      
+    <script>
+        const PATH = '/service-worker.js';
+        let isServiceWorkersSupport = ('serviceWorker' in navigator);
+        if (isServiceWorkersSupport) {
+         console.log('Will service worker register?');
+         navigator.serviceWorker.register(PATH).then(function () {
+         console.log("Yes it did.");
+         }).catch(function (err) {
+         console.log("No it didn't. This happened: ", err)
+         });
+        }
+     </script>
+
+    <header>
+      <a class="logo" href="index.html">Simple Weather</a>
+      <a class="search-location">
+        <form action="">
+          <input
+            class="type-location"
+            placeholder="Enter location"
+            type="text"
+            id="getLocation"
+          /><br /><br />
+        </form>
+      </a>
+      <nav>
+        <ul class="nav_links">
+          <li><a href="">Dashboard</a></li>
+          <li><a href="">Advanced mode</a></li>
+          <li><a href="">Radar map</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="grid">
+      <section class="temperature">
+        <h1>Temperature</h1>
+      </section>
+      <section class="map">
+        <h1>Map</h1>
+        <div class="mapouter">
+          <div class="gmap_canvas">
+            <iframe
+              width="500"
+              height="450"
+              id="gmap_canvas"
+              src="https://maps.google.com/maps?q=Koszalin&t=&z=9&ie=UTF8&iwloc=&output=embed"
+              frameborder="0"
+              scrolling="no"
+              marginheight="0"
+              marginwidth="0"
+            ></iframe
+            ><a href="https://putlocker-is.org"></a><br />
+            <a href="https://www.embedgooglemap.net">Google Map</a>
+            
+          </div>
+        </div>
+      </section>
+      
+    </main>
+
+    <main class="grid">
+        <section class="forecast">
+            <h1>Forecast</h1>
+          </section>
+          <section class="pressure">
+            <h1>Pressure</h1>
+          </section>
+    </main>
+
+    <footer class="copyrights">
+      <small>&copy; Copyright 2021, Radosław Jachimowicz</small>
+    </footer>
+  </body>
+</html>
