@@ -1,8 +1,20 @@
 {
-    "short_name": "RadekAutoSiteWeather",
-    "name": "",
-    "start_url": "https://neozmatrixa.github.io/IoT/",
-    "background_color": "",
-    "theme_color": "",
-    "display": "fullscreen"
-   }
+  "short_name": "SimpleWeather",
+  "name": "RadekSimpleWeather",
+  "icons": [
+    {
+      "src": "images/icon.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icon2.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "https://neozmatrixa.github.io/IoT/",
+  "background_color": "",
+  "theme_color": "",
+  "display": "fullscreen"
+}
