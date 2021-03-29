@@ -1,4 +1,5 @@
 {
+  "start_url": "https://neozmatrixa.github.io/IoT/",
   "short_name": "eParking",
   "name": "ElectronicParking",
   "icons": [
@@ -18,7 +19,6 @@
       "type": "image/png"
     }
   ],
-  "start_url": "https://neozmatrixa.github.io/IoT/",
   "background_color": "white",
   "theme_color": "gray",
   "display": "fullscreen",
