@@ -1,6 +1,6 @@
 {
-  "short_name": "SimpleWeather",
-  "name": "RadekSimpleWeather",
+  "short_name": "eParking",
+  "name": "ElectronicParking",
   "icons": [
     {
       "src": "images/icon.png",
@@ -14,7 +14,7 @@
     }
   ],
   "start_url": "https://neozmatrixa.github.io/IoT/",
-  "background_color": "",
-  "theme_color": "",
+  "background_color": "white",
+  "theme_color": "gray",
   "display": "fullscreen"
 }
