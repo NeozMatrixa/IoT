@@ -1,50 +1,57 @@
-const CACHE_NAME = "dowolny-string";
-// List of files which are store in cache.
-let filesToCache = [
-  "/",
-  "styles.css",
-  "images/icon.png",
-  "images/icon2.png",
-  "connection-state.js",
-  "main.js",
-  "index.html",
-];
-self.addEventListener("install", function (evt) {
-  evt.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then(function (cache) {
-        return cache.addAll(filesToCache);
-      })
-      .catch(function (err) {
-        // Snooze errors...
-        // console.error(err);
-      })
-  );
-});
-self.addEventListener("fetch", function (event) {
-  event.respondWith(
-    fetch(event.request).catch(function (error) {
-      console.log(
-        "[Service Worker] Network request Failed. Serving content from cache: " +
-          error
-      );
-      //Check to see if you have it in the cache
-      //Return response
-      //If not in the cache, then return error page
-      return caches
-        .open(
-          "sw-precache-v3-sw-precache-webpack-plugin-https://silent-things.surge.sh"
-        )
-        .then(function (cache) {
-          return cache.match(event.request).then(function (matching) {
-            var report =
-              !matching || matching.status == 404
-                ? Promise.reject("no-match")
-                : matching;
-            return report;
-          });
-        });
+var APP_PREFIX = 'eParking'     // Identifier for this app (this needs to be consistent across every cache update)
+var VERSION = 'version_01'              // Version of the off-line cache (change this value everytime you want to update cache)
+var CACHE_NAME = APP_PREFIX + VERSION
+var URLS = [                            // Add URL you want to cache in this list.
+  'https://github.com/NeozMatrixa/IoT/',                     // If you have separate JS/CSS files,
+  'https://github.com/NeozMatrixa/IoT/index.html'            // add path to those files here
+]
+
+// Respond with cached resources
+self.addEventListener('fetch', function (e) {
+  console.log('fetch request : ' + e.request.url)
+  e.respondWith(
+    caches.match(e.request).then(function (request) {
+      if (request) { // if cache is available, respond with cache
+        console.log('responding with cache : ' + e.request.url)
+        return request
+      } else {       // if there are no cache, try fetching request
+        console.log('file is not cached, fetching : ' + e.request.url)
+        return fetch(e.request)
+      }
+
+      // You can omit if/else for console.log & put one line below like this too.
+      // return request || fetch(e.request)
     })
-  );
-});
+  )
+})
+
+// Cache resources
+self.addEventListener('install', function (e) {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      console.log('installing cache : ' + CACHE_NAME)
+      return cache.addAll(URLS)
+    })
+  )
+})
+
+// Delete outdated caches
+self.addEventListener('activate', function (e) {
+  e.waitUntil(
+    caches.keys().then(function (keyList) {
+      // `keyList` contains all cache names under your username.github.io
+      // filter out ones that has this app prefix to create white list
+      var cacheWhitelist = keyList.filter(function (key) {
+        return key.indexOf(APP_PREFIX)
+      })
+      // add current cache name to white list
+      cacheWhitelist.push(CACHE_NAME)
+
+      return Promise.all(keyList.map(function (key, i) {
+        if (cacheWhitelist.indexOf(key) === -1) {
+          console.log('deleting cache : ' + keyList[i] )
+          return caches.delete(keyList[i])
+        }
+      }))
+    })
+  )
