@@ -11,10 +11,16 @@
       "src": "images/icon2.png",
       "sizes": "192x192",
       "type": "image/png"
+    },
+    {
+      "src": "images/icon2.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "start_url": "https://neozmatrixa.github.io/IoT/",
   "background_color": "white",
   "theme_color": "gray",
-  "display": "fullscreen"
+  "display": "fullscreen",
+  "prefer_related_applications": false
 }
