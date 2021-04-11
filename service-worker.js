@@ -25,3 +25,12 @@ self.addEventListener("fetch", function (evt) {
     })
   );
 });
+
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open('dowolny-string')
+      .then(function (cache) {
+        return cache.addAll(filesToCache);
+      })
+  );
+});
