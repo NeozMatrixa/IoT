@@ -17,7 +17,7 @@ function newEntry_prototype() {
     var place = document.createElement("TD");
     var date = document.createElement("TD");
     action.innerHTML = "Wjazd"
-    place.innerHTML = "0"
+    place.innerHTML = "-"
     date.innerHTML = datetime;
     y.appendChild(action);
     y.appendChild(place);
@@ -68,35 +68,38 @@ function newEntry_prototype() {
   }
 
   function newEntry(){
-      var today = new Date();
-      var datetime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() +" Time: "+ today.getHours() +":"+ today.getMinutes() +":"+ today.getSeconds();
-
-      logger ["Akcja"] = "Wjazd";
-      logger ["Miejsce"] = "0";
-      logger ["Data"] = datetime;
-      console.log(logger);
       newEntry_prototype();
+      logAction("Wjazd",null)
   }
 
   function newPark(){
-    var today = new Date();
-    var datetime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() +" Time: "+ today.getHours() +":"+ today.getMinutes() +":"+ today.getSeconds();
     var place = document.getElementById("placePark").value;
-    logger ["Akcja"] = "Parkowanie";
-    logger ["Miejsce"] = place;
-    logger ["Data"] = datetime;
-    console.log(logger);
     newPark_prototype();
+    logAction("Parkowanie",place)
 }
 
 function newLeave(){
-    var today = new Date();
-    var datetime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() +" Time: "+ today.getHours() +":"+ today.getMinutes() +":"+ today.getSeconds();
-    var place = document.getElementById("placeLeave").value;
-    logger ["Akcja"] = "Opuszczanie";
-    logger ["Miejsce"] = place;
-    logger ["Data"] = datetime;
-    console.log(logger);
+   var place = document.getElementById("placeLeave").value;
     newLeave_prototype();
+    logAction("Wyjazd",place)
 }
 
+function logAction(_action, _place) {
+  var today = new Date();
+  var datetime = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() +" Time: "+ today.getHours() +":"+ today.getMinutes() +":"+ today.getSeconds();
+  
+
+  var logEvent = {
+      action: _action,
+      place: _place,
+      date: datetime
+  };
+
+  localStorage.setItem(_action, JSON.stringify(logEvent));
+  let storageObject = JSON.parse(localStorage.getItem(_action));
+  console.log(storageObject.action);
+  console.log(storageObject.place);
+  console.log(storageObject.date);
+
+
+}
