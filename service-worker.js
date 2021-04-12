@@ -74,14 +74,3 @@ self.addEventListener('cookiechange', (event) => {
     }
   }
 });
-
-cookieStore.addEventListener('change', (event) => {
-  for (const cookie of event.changed) {
-    if (cookie.name === 'session_id')
-      sessionCookieChanged(cookie.value);
-  }
-  for (const cookie of event.deleted) {
-    if (cookie.name === 'session_id')
-      sessionCookieChanged(null);
-  }
-});
