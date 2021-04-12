@@ -94,12 +94,21 @@ function logAction(_action, _place) {
       place: _place,
       date: datetime
   };
+  
 
   localStorage.setItem(_action, JSON.stringify(logEvent));
   let storageObject = JSON.parse(localStorage.getItem(_action));
   console.log(storageObject.action);
   console.log(storageObject.place);
   console.log(storageObject.date);
+
+  fetch(SHARED_DATA_ENDPOINT, { method: "POST", body: JSON.stringify({ token: 'sampletoken' })}).then(() => {
+    console.log(storageObject.action, storageObject.place, storageObject.date)
+});
+
+fetch(SHARED_DATA_ENDPOINT).then(response => response.json()).then(data => {
+  console.log('Got', data, 'from cache');
+});
 
 
 }
