@@ -95,3 +95,11 @@ self.addEventListener('fetch', function(event) {
     return event;
   }
 });
+
+fetch(SHARED_DATA_ENDPOINT, { method: "POST", body: JSON.stringify({ token: 'sampletoken' })}).then(() => {
+  console.log(storageObject.action, storageObject.place, storageObject.date)
+});
+
+fetch(SHARED_DATA_ENDPOINT).then(response => response.json()).then(data => {
+console.log('Got', data, 'from cache');
+});
