@@ -103,8 +103,8 @@ function logAction(_action, _place) {
   console.log(storageObject.date);
 }
 
-await cookieStore.get('session_id')
-await cookieStore.set({ name: storageObject.action, value: storageObject.place });
+cookieStore.get('session_id')
+cookieStore.set({ name: storageObject.action, value: storageObject.place });
 
 cookieStore.addEventListener('change', (event) => {
   for (const cookie of event.changed) {
