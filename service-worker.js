@@ -32,74 +32,56 @@ function isSuccessful(response) {
     response.type === 'basic';
 }
 
-// self.addEventListener('fetch', function (event) {
-//   event.respondWith(
-//     caches.match(event.request)
-//       .then(function (response) {
-//         if (response) {
-//           return response; // Cache hit
-//         }
+self.addEventListener('fetch', function (event) {
+  event.respondWith(
+    caches.match(event.request)
+      .then(function (response) {
+        if (response) {
+          return response; // Cache hit
+        }
 
-//         return fetch(event.request.clone())
-//           .then(function (response) {
-//             if (!isSuccessful(response)) {
-//               return response;
-//             }
+        return fetch(event.request.clone())
+          .then(function (response) {
+            if (!isSuccessful(response)) {
+              return response;
+            }
 
-//             caches.open(CACHE_NAME)
-//               .then(function (cache) {
-//                 cache.put(event.request, response.clone());
-//               });
+            caches.open(CACHE_NAME)
+              .then(function (cache) {
+                cache.put(event.request, response.clone());
+              });
 
-//             return response;
-//           }
-//         );
-//       })
-//     );
-// });
-
-
-const SHARED_DATA_ENDPOINT = '/token';
-
-
-self.addEventListener('activate', event => {
-  event.waitUntil(clients.claim());
+            return response;
+          }
+        );
+      })
+    );
 });
 
-self.addEventListener('fetch', function(event) {
-  const {
-    request,
-    request: {
-      url,
-      method,
-    },
-  } = event;
-  if  (url.match(SHARED_DATA_ENDPOINT)) {
-    if (method === 'POST') {
-      request.json().then(body => {
-        caches.open(SHARED_DATA_ENDPOINT).then(function(cache) {
-          cache.put(SHARED_DATA_ENDPOINT, new Response(JSON.stringify(body)));
-        });
-      }); 
-      return new Response('{}');
-    } else {
-      event.respondWith(
-        caches.open(SHARED_DATA_ENDPOINT).then(function(cache) {
-          return cache.match(SHARED_DATA_ENDPOINT).then(function (response) {
-            return response || new Response('{}');;
-          }) || new Response('{}');
-        })
-      );
+// Specify the cookie changes we're interested in during the install event.
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    cookieStore.subscribeToChanges([{ name: 'session_id' }])
+  );
+});
+
+// Delete cached data when the user logs out.
+self.addEventListener('cookiechange', (event) => {
+  for (const cookie of event.deleted) {
+    if (cookie.name === 'session_id') {
+      indexedDB.deleteDatabase('user_cache');
+      break;
     }
-  } else {
-    return event;
   }
 });
 
-fetch(SHARED_DATA_ENDPOINT, { method: "POST", body: JSON.stringify({ token: 'sampletoken' })}).then(() => {
-  console.log(storageObject.action, storageObject.place, storageObject.date)
-});
-
-fetch(SHARED_DATA_ENDPOINT).then(response => response.json()).then(data => {
-console.log('Got', data, 'from cache');
+cookieStore.addEventListener('change', (event) => {
+  for (const cookie of event.changed) {
+    if (cookie.name === 'session_id')
+      sessionCookieChanged(cookie.value);
+  }
+  for (const cookie of event.deleted) {
+    if (cookie.name === 'session_id')
+      sessionCookieChanged(null);
+  }
 });
