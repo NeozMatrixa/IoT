@@ -187,7 +187,7 @@ function init() {
 }
 
 function initializeIndexedDb() {
-  let messageLog = this.indexedDB.open("Parking");
+  let messageLog = indexedDB.open("Parking");
 
   messageLog.onupgradeneeded = (event) => {
     let db = event.target.result;
@@ -203,7 +203,7 @@ function initializeIndexedDb() {
 
 function formDataToDb(_action, _place) {
   return new Promise((resolve, reject) => {
-    let messageLog = window.indexedDB.open("Parking");
+    let messageLog = indexedDB.open("Parking");
 
     console.log("Lecimy z formem");
     messageLog.onsuccess = (event) => {
