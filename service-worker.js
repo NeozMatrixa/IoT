@@ -83,7 +83,7 @@ self.onsync = event => {
 
 function getDataFromDb() {
   return new Promise((resolve, reject) => {
-      let db = indexedDB.open('Parking');
+      let db = indexedDB.open('eParkingLog');
 
       db.onsuccess = () => {
               db.result.transaction('logObjStore').objectStore('logObjStore').getAll()
