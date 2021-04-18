@@ -71,18 +71,42 @@ function newEntry_prototype() {
   function newEntry(){
       newEntry_prototype();
       logAction("Wjazd",null)
+      this.formDataToDb("Wjazd", null).then(function() {
+        if (registration.sync) {
+            registration.sync.register('message-to-log')
+                .catch(function(err) {
+                    return err;
+                })
+        }
+    });
   }
 
   function newPark(){
     var place = document.getElementById("placePark").value;
     newPark_prototype();
     logAction("Parkowanie",place)
+    this.formDataToDb("Parkowanie", place).then(function() {
+      if (registration.sync) {
+          registration.sync.register('message-to-log')
+              .catch(function(err) {
+                  return err;
+              })
+      }
+  });
 }
 
 function newLeave(){
    var place = document.getElementById("placeLeave").value;
     newLeave_prototype();
     logAction("Wyjazd",place)
+    this.formDataToDb("Wyjazd", place).then(function() {
+      if (registration.sync) {
+          registration.sync.register('message-to-log')
+              .catch(function(err) {
+                  return err;
+              })
+      }
+  });
 }
 
 function logAction(_action, _place) {
@@ -120,8 +144,8 @@ cookieStore.addEventListener('change', (event) => {
 });
 
 function init() {
-  this.initializeIndexedDb();
-  //this.registerServiceWorker();
+  initializeIndexedDb();
+  registerServiceWorker();
 }
 
 function initializeIndexedDb() {
