@@ -102,35 +102,21 @@ function newLeave_prototype() {
 function newEntry() {
   newEntry_prototype();
   logAction("Wjazd", null);
-  formDataToDb("Wjazd", 0).then(function () {
-    if (registration.sync) {
-      registration.sync.register("message-to-log").catch(function (err) {
-        return err;
-      });
-    }
-  });
+  formDataToDb("Wjazd", 0);
 }
 
 function newPark() {
   var place = document.getElementById("placePark").value;
   newPark_prototype();
   logAction("Parkowanie", place);
-  formDataToDb("Parkowanie", place).then(function () {
-    console.log("Zaczynam zapis parkowania");
-    if (registration.sync) {
-      console.log("Mamy synchro")
-      registration.sync.register("message-to-log").catch(function (err) {
-        return err;
-      });
-    }
-  });
+  formDataToDb("Parkowanie", place);
 }
 
 function newLeave() {
   var place = document.getElementById("placeLeave").value;
   newLeave_prototype();
   logAction("Wyjazd", place);
-  formDataToDb("Wyjazd", place)
+  formDataToDb("Wyjazd", place);
 }
 
 function logAction(_action, _place) {
@@ -201,7 +187,7 @@ function formDataToDb(_action, _place) {
       let objStore = messageLog.result
         .transaction("logObjStore", "readwrite")
         .objectStore("logObjStore");
-      objStore.add(logAction(_action, _place.value));
+      objStore.add(logAction(_action, _place));
       console.log("Zapisane ez");
       resolve();
     };
