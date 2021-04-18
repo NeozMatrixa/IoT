@@ -187,7 +187,7 @@ function init() {
 }
 
 function initializeIndexedDb() {
-  let messageLog = this.indexedDB.open("eParkingLog");
+  let messageLog = this.indexedDB.open("Parking");
 
   messageLog.onupgradeneeded = (event) => {
     let db = event.target.result;
