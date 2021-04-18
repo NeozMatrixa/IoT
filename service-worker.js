@@ -74,3 +74,38 @@ self.addEventListener('cookiechange', (event) => {
     }
   }
 });
+
+self.onsync = event => {
+  if (event.tag === 'message-to-log') {
+      event.waitUntil(synchronize());
+  }
+}
+
+function getDataFromDb() {
+  return new Promise((resolve, reject) => {
+      let db = indexedDB.open('Parking');
+
+      db.onsuccess = () => {
+              db.result.transaction('logObjStore').objectStore('logObjStore').getAll()
+                  .onsuccess = (event) => {
+                      // Podaj zawarotśc dalej
+                      resolve(event.target.result);
+                  }
+          }
+      db.onerror = (err) => {
+          reject(err);
+      }
+  });
+}
+
+function sendToServer(response) {
+  console.log(JSON.stringify(response));
+}
+
+function synchronize() {
+  return getDataFromDb()
+      .then(sendToServer)
+      .catch(function(err) {
+          return err;
+      });
+}

@@ -1,5 +1,6 @@
 var logger = {};
 var log = document.getElementById("eParkingLog");
+init();
 
 document.getElementById("btnpark").addEventListener("click", newPark);
 document.getElementById("btnleave").addEventListener("click", newLeave);
@@ -117,3 +118,42 @@ cookieStore.addEventListener('change', (event) => {
       sessionCookieChanged(null);
   }
 });
+
+function init() {
+  this.initializeIndexedDb();
+  //this.registerServiceWorker();
+}
+
+function initializeIndexedDb() {
+  let messageLog = window.indexedDB.open('Parking');
+
+  messageLog.onupgradeneeded = (event) => {
+      let db = event.target.result;
+      let logObjStore = db.createObjectStore('logObjStore', { autoIncrement: true });
+
+      logObjStore.createIndex('action', 'action', { unique: false });
+      logObjStore.createIndex('place', 'place', { unique: false });
+      logObjStore.createIndex('date', 'date', { unique: false });
+  }
+}
+
+function formDataToDb(_action, _place) {
+  return new Promise((resolve, reject) => {
+      let messageLog = window.indexedDB.open('Parking');
+
+      messageLog.onsuccess = event => {
+          let objStore = messageLog.result.transaction('logObjStore', 'readwrite')
+              .objectStore('logObjStore');
+          objStore.add(this.logAction(_action, _place));
+          resolve();
+      }
+
+      messageLog.onerror = err => {
+          reject(err);
+      }
+  });
+}
+function formDataToServer() {
+  console.log(JSON.stringify(this.getFormData()));
+
+}
