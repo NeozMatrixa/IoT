@@ -102,9 +102,7 @@ function newLeave_prototype() {
 function newEntry() {
   newEntry_prototype();
   logAction("Wjazd", null);
-  preventDefault();
-
-  this.formDataToDb("Wjazd", 0).then(function () {
+  formDataToDb("Wjazd", 0).then(function () {
     if (registration.sync) {
       registration.sync.register("message-to-log").catch(function (err) {
         return err;
@@ -117,8 +115,10 @@ function newPark() {
   var place = document.getElementById("placePark").value;
   newPark_prototype();
   logAction("Parkowanie", place);
-  this.formDataToDb("Wjazd", 0).then(function () {
+  formDataToDb("Wjazd", 0).then(function () {
+    console.log("Zaczynam zapis parkowania");
     if (registration.sync) {
+      console.log("Mamy synchro")
       registration.sync.register("message-to-log").catch(function (err) {
         return err;
       });
@@ -130,7 +130,7 @@ function newLeave() {
   var place = document.getElementById("placeLeave").value;
   newLeave_prototype();
   logAction("Wyjazd", place);
-  this.formDataToDb("Wyjazd", place).then(function () {
+  formDataToDb("Wyjazd", place).then(function () {
     if (registration.sync) {
       registration.sync.register("message-to-log").catch(function (err) {
         return err;
@@ -205,15 +205,18 @@ function formDataToDb(_action, _place) {
   return new Promise((resolve, reject) => {
     let messageLog = window.indexedDB.open("Parking");
 
+    console.log("Lecimy z formem");
     messageLog.onsuccess = (event) => {
       let objStore = messageLog.result
         .transaction("logObjStore", "readwrite")
         .objectStore("logObjStore");
       objStore.add(this.logAction(_action, _place));
+      console.log("Zapisane ez");
       resolve();
     };
 
     messageLog.onerror = (err) => {
+      console.log("Cos nie dziala");
       reject(err);
     };
   });
