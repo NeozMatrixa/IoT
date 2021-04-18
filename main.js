@@ -145,11 +145,11 @@ cookieStore.addEventListener('change', (event) => {
 
 function init() {
   initializeIndexedDb();
-  registerServiceWorker();
+ //registerServiceWorker();
 }
 
 function initializeIndexedDb() {
-  let messageLog = window.indexedDB.open('Parking');
+  let messageLog = this.indexedDB.open('eParkingLog');
 
   messageLog.onupgradeneeded = (event) => {
       let db = event.target.result;
