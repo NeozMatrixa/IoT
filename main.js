@@ -201,7 +201,7 @@ function formDataToDb(_action, _place) {
       let objStore = messageLog.result
         .transaction("logObjStore", "readwrite")
         .objectStore("logObjStore");
-      objStore.add(logAction(_action, _place));
+      objStore.add(logAction(_action, _place.value));
       console.log("Zapisane ez");
       resolve();
     };
